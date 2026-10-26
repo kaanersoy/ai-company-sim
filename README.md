@@ -2,7 +2,7 @@
 
 An AI company simulation. A **CEO agent** decides what product to build, hires and fires a team with a game budget, and five **customer agents** (small businesses) review the product and pay a **daily subscription** based on how much value it gives them. You watch it all happen in a pixel-art office in your browser.
 
-![Demo: the pixel office](docs/demo.gif)
+![Demo: the pixel office](docs/demo-2.gif)
 
 ## What happens
 
