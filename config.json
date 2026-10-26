@@ -1,0 +1,81 @@
+{
+  "maxSpendUsd": 0.2,
+  "model": "claude-haiku-4-5",
+  "pricesPerMTok": {
+    "input": 1.0,
+    "output": 5.0
+  },
+  "maxTokens": {
+    "manager": 400,
+    "worker": 200,
+    "customer": 150,
+    "summary": 160
+  },
+  "charsPerTokenEstimate": 3,
+  "game": {
+    "startingBudget": 2000,
+    "officeRentPerDay": 40,
+    "maxDays": 30,
+    "maxEmployees": 5,
+    "hiringFee": 60,
+    "severanceDays": 3,
+    "maxSalary": 100,
+    "spendCapPerAction": 100,
+    "startPrice": 15,
+    "minPrice": 1,
+    "maxPrice": 100,
+    "subscribeAvg": 5,
+    "cancelAvg": 3,
+    "startingEmployees": []
+  },
+  "dailyDebate": false,
+  "dbPath": "data/sim.db",
+  "mockDbPath": "data/sim.mock.db",
+  "customers": [
+    {
+      "id": "maya",
+      "name": "Maya",
+      "business": "owner of a 3-shop cafe chain",
+      "need": "a simple tool to track daily stock and cut milk and coffee waste across shops",
+      "payCap": 60,
+      "everyDays": 3,
+      "firstDay": 3
+    },
+    {
+      "id": "tom",
+      "name": "Tom",
+      "business": "baker running a neighborhood bakery",
+      "need": "a way to manage daily preorders and flour stock",
+      "payCap": 40,
+      "everyDays": 2,
+      "firstDay": 2
+    },
+    {
+      "id": "priya",
+      "name": "Priya",
+      "business": "manager of a small gym",
+      "need": "class bookings and member check-ins in one place",
+      "payCap": 75,
+      "everyDays": 4,
+      "firstDay": 4
+    },
+    {
+      "id": "lee",
+      "name": "Dr. Lee",
+      "business": "dentist running a small clinic",
+      "need": "appointment reminders that cut patient no-shows",
+      "payCap": 50,
+      "everyDays": 5,
+      "firstDay": 5
+    },
+    {
+      "id": "sam",
+      "name": "Sam",
+      "business": "freelance designer",
+      "need": "simple invoicing and time tracking",
+      "payCap": 30,
+      "everyDays": 3,
+      "firstDay": 4
+    }
+  ]
+}

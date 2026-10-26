@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Company Simulation</title>
+<style>
+  :root { --bg:#10131a; --panel:#1a1f2b; --ink:#e6e9f0; --mute:#8a93a6; --acc:#5b9cff; --ok:#4cc38a; --bad:#ef5b5b; }
+  * { box-sizing:border-box }
+  html,body { margin:0; height:100%; background:var(--bg); color:var(--ink); font:13px/1.4 system-ui,sans-serif; overflow:hidden }
+  #hud { position:fixed; top:12px; left:12px; width:290px; max-height:calc(100% - 24px); overflow-y:auto; display:flex; flex-direction:column; gap:8px; z-index:5 }
+  #hud .top { display:flex; justify-content:space-between; align-items:center; gap:8px }
+  #hud h1 { font-size:14px; margin:0 }
+  .pill { font-size:10px; font-weight:700; padding:3px 8px; border-radius:99px; white-space:nowrap }
+  .pill.mock { background:#1f3b2c; color:var(--ok) } .pill.real { background:#4a2323; color:#ff9a9a }
+  .card { background:var(--panel); border-radius:10px; padding:10px 12px }
+  .card .cap { font-size:10px; letter-spacing:.06em; color:var(--mute); font-weight:700 }
+  .card .cap i { font-weight:400; letter-spacing:0; text-transform:none }
+  .card .big { font-size:20px; margin:2px 0 }
+  .card .big .of { font-size:12px; color:var(--mute) }
+  .card .sub { font-size:11px; color:var(--mute) }
+  .card .sub i { opacity:.8 }
+  .bar { height:8px; background:#2a3142; border-radius:4px; overflow:hidden; margin:6px 0 }
+  .bar > i { display:block; height:100%; background:var(--ok); width:0 }
+  .opt { display:flex; gap:8px; align-items:flex-start; margin:8px 0; cursor:pointer }
+  .opt input[type=checkbox] { margin-top:3px }
+  .opt small { display:block; color:var(--mute); font-size:11px; font-weight:400 }
+  .opt.days { align-items:center; justify-content:space-between }
+  .ctl { display:flex; gap:6px; margin-top:10px }
+  #go { flex:1; font-weight:700; padding:8px 12px }
+  button { background:var(--acc); color:#fff; border:0; border-radius:6px; padding:6px 12px; cursor:pointer; font:inherit }
+  button:disabled { opacity:.45; cursor:default }
+  input[type=number] { width:56px; background:#10131a; color:var(--ink); border:1px solid #2a3142; border-radius:6px; padding:4px }
+  #banner { margin-top:8px; padding:6px 8px; border-radius:6px; background:#2a3142; display:none }
+  #feed { display:block; position:fixed; top:12px; right:12px; bottom:12px; width:330px; background:var(--panel); border-radius:10px; padding:10px; overflow-y:auto; z-index:5 }
+  #feed h2 { font-size:14px; margin:2px 0 10px }
+  #feed .cap { font-size:10px; letter-spacing:.06em; color:var(--mute); font-weight:700; margin:10px 0 4px }
+  #feed .cap i { font-weight:400; letter-spacing:0 }
+  #product { background:#232a3a; border-radius:8px; padding:8px 10px; font-size:12px; word-break:break-word }
+  #product.empty { color:var(--mute) }
+  .dc { background:#1d2331; border-radius:8px; padding:8px 10px; margin-bottom:8px; font-size:12px; word-break:break-word }
+  .dc .fin { margin-top:6px }
+  .dc .fin .r { display:flex; justify-content:space-between; gap:8px; padding:1px 0 }
+  .dc .fin .r.in b { color:#6ee7a0 } .dc .fin .r.out b { color:#ff8a8a } .dc .fin .r.none { color:var(--mute) }
+  .dc .fin .r.tot { border-top:1px solid #2f3850; margin-top:3px; padding-top:3px; font-weight:700 }
+  .pos { color:#6ee7a0 } .neg { color:#ff8a8a }
+  #broke { display:none; position:fixed; inset:0; z-index:50; pointer-events:none; flex-direction:column; align-items:center; justify-content:center; text-shadow:0 2px 10px #000 }
+  #broke h1 { font-size:72px; margin:0; color:#ff6b6b; letter-spacing:.05em; transform:rotate(-4deg) } #broke p { margin:8px 0 0; color:#fff; font-size:14px }
+  .dc .dh { color:var(--acc); font-weight:700; margin-bottom:3px }
+  .dc .dn { color:var(--mute); margin-top:4px }
+  .dc .dx .cust { border-left:3px solid #ffe27a; padding-left:8px; margin-top:5px }
+  button.sec { background:#2a3142 }
+  #stage { position:fixed; left:314px; top:0; bottom:0; right:354px; display:flex; align-items:center; justify-content:center }
+  #wrap { position:relative }
+  canvas { image-rendering:pixelated; image-rendering:crisp-edges }
+  .bub { position:absolute; transform:translate(-50%,-100%); max-width:190px; background:#fff; color:#111; border:2px solid #111; padding:4px 6px; font:11px/1.25 ui-monospace,Menlo,monospace; box-shadow:2px 2px 0 #0006; pointer-events:none; z-index:6; word-break:break-word }
+  .bub.dec { background:#ffe27a }
+  .bub.bad { background:#ff9a9a }
+  .bub.ok { background:#a8f0b8 }
+</style>
+</head>
+<body>
+<div id="hud">
+  <div class="top"><h1>AI Company Simulation</h1></div>
+
+  <div class="card">
+    <div class="cap">ZAMAN</div>
+    <div class="big">Day <b id="day">0</b> <span class="of">/ <span id="maxday">5</span></span></div>
+    <div class="sub">🕐 <span id="clock">06:00</span></div>
+  </div>
+
+  <div class="card">
+    <div class="cap">COMPANY CASH</div>
+    <div class="big">💰 <b id="budget">0</b></div>
+  </div>
+
+  <div class="card" id="cost">
+    <div class="cap">REAL MONEY SPENT <i>(Claude API)</i></div>
+    <div class="big"><b id="spent">$0</b> <span class="of">/ <span id="cap"></span> limit</span></div>
+    <div class="bar"><i id="bar"></i></div>
+    <div class="sub"><b id="calls">0</b> calls <button id="addcap" class="sec" style="margin-left:8px;padding:3px 8px;font-size:11px">+ $0.20 limit</button></div>
+  </div>
+
+  <div class="card">
+    <div class="cap">KONTROL</div>
+    <label class="opt days"><span><b>How many days?</b></span><input type="number" id="days" value="5" min="1" max="30"></label>
+    <div class="ctl"><button id="go">▶ Start</button><button id="stop" class="sec" disabled>⏸ Stop</button></div>
+    <div class="ctl"><button id="reset" class="sec" style="flex:1">↺ Reset</button></div>
+  </div>
+  <div id="banner"></div>
+</div>
+<div id="stage"><div id="wrap"><canvas id="cv" width="400" height="224"></canvas></div></div>
+<div id="feed"><h2>📝 Product notebook</h2><div class="cap">WHAT IS THE PRODUCT? <i>(latest summary)</i></div><div id="product" class="empty">No summary yet. Press Start and it will appear here at the end of each day.</div><div class="cap">DAY BY DAY</div><div id="notes"></div></div>
+<div id="broke"><h1>BANKRUPT!</h1><p id="broke-sub"></p></div>
+<script type="module" src="/app.js"></script>
+</body>
+</html>
