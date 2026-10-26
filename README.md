@@ -1,17 +1,20 @@
 # ai-company-sim
 
-An AI company simulation. A **CEO agent** decides what product to build, hires and fires a team with a game budget, and five **customer agents** (small businesses) review the product and pay a **daily subscription** based on how much value it gives them. You watch it all happen in a pixel-art office in your browser.
+**An AI company simulation you can watch.**
 
-![Demo: the pixel office](docs/demo-2.gif)
+- 🧠 A CEO agent picks the product, hires, fires and sets the price
+- 💸 Five customers pay a daily subscription only if the product is worth it
+- 🏢 A pixel-art office shows everything live: work, messages, day and night
+- 🛡️ Hard spend cap and a free mock mode, so experiments stay cheap
 
-## What happens
+<img src="docs/demo-2.gif" alt="Demo: the pixel office" width="100%">
 
-- **Day 1:** the company starts with no employees. The CEO picks a product idea (random per world), sets a price, and proposes hires. The engine judges every hire against the budget.
-- **Every day:** employees arrive at the office, the CEO plans and replies, workers build features and message each other (or the customer), salaries and rent are paid, and customers review the product.
-- **Customers** (cafe, bakery, gym, clinic, freelancer) visit on their own schedule, only while the office is open. Each one subscribes or cancels depending on its scores and the daily price. Hidden needs are revealed only if the team asks.
-- **Night:** everybody walks out through the door at closing time and returns the next morning.
-- **Money** is decided by the engine only: cash, salaries, rent, hire fees, severance and subscription payments. The CEO can fire people to save cash. If cash runs out the company goes **BANKRUPT**.
-- The right-hand **Product notebook** shows the product description and one card per day with a finance report and customer feedback.
+## How a run plays out
+
+- 🚀 **Day 1:** an empty office. The CEO picks a product idea, sets a price and hires the team.
+- ⚙️ **Every day:** the team builds, customers review, and each one subscribes or cancels.
+- 📉 **The pressure:** salaries and rent are paid daily. The CEO can fire people to save cash.
+- 💥 **The end:** if cash hits zero the company goes **BANKRUPT**. If not, it keeps growing.
 
 ## Quick start
 
