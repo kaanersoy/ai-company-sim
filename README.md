@@ -1,4 +1,4 @@
-# sim-company
+# ai-company-sim
 
 An AI company simulation. A **CEO agent** decides what product to build, hires and fires a team with a game budget, and five **customer agents** (small businesses) review the product and pay a **daily subscription** based on how much value it gives them. You watch it all happen in a pixel-art office in your browser.
 
@@ -16,6 +16,8 @@ An AI company simulation. A **CEO agent** decides what product to build, hires a
 ## Quick start
 
 ```bash
+git clone git@github.com:kaanersoy/ai-company-sim.git
+cd ai-company-sim
 npm install
 npm run ui:mock      # UI in mock mode: $0, deterministic (use this for development)
 ```
